@@ -28,10 +28,23 @@ a{color:inherit;text-decoration:none}
 #hero{position:relative;height:100svh;min-height:calc(760*var(--u));overflow:hidden}
 #hero .lay{position:absolute;left:0;top:calc(-45*var(--u));width:calc(1951*var(--u));height:calc(1217*var(--u))}
 #hero .lay .m{background-color:transparent}
+/* home slideshow (Joel, 2026-11-26): every 10 s the next home frame cross-fades in; the title stays put between each frame's back and front layer */
+.hstack{position:absolute;inset:0}
+.hsl{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease}
+.hsl.on{opacity:1}
+.hs{position:absolute;left:50%;top:0;transform:translateX(-50%);width:max(100%,calc(100svh*1728/1108));aspect-ratio:1728/1108;background:center top/100% 100% no-repeat}
 #hShadow{position:absolute;left:calc(621.92*var(--u));top:calc(248.1*var(--u));width:calc(327.96*var(--u));height:calc(133.545*var(--u));pointer-events:none}
 #hShadow svg{width:100%;height:100%;overflow:visible}
 #hTitle{position:absolute;left:0;width:100%;top:calc(119*var(--u));text-align:center;font-weight:600;font-size:calc(178.8*var(--u));letter-spacing:-.05em;line-height:1.02}
 #hFade{position:absolute;left:0;right:0;bottom:0;height:calc(359*var(--u));background:linear-gradient(180deg,rgba(29,29,26,0),var(--bg))}
+#hStage{position:absolute;left:0;top:0;width:100%;aspect-ratio:1728/1108;overflow:hidden;--h:calc(100vw/1728)}
+@media (max-aspect-ratio:1728/1108){#hStage{top:max(0px,calc(84px - 119*var(--h)))}}
+#hStage .lay{top:calc(-45*var(--h));width:calc(1951*var(--h));height:calc(1217*var(--h))}
+#hStage #hShadow{left:calc(621.92*var(--h));top:calc(248.1*var(--h));width:calc(327.96*var(--h));height:calc(133.545*var(--h))}
+#hStage #hTitle{top:calc(119*var(--h));font-size:calc(178.8*var(--h));white-space:nowrap}
+#hStage .hs{left:0;transform:none;width:100%;height:100%;aspect-ratio:auto}
+#hStageFade{display:none;position:absolute;left:0;right:0;bottom:-1px;height:35%;background:linear-gradient(180deg,rgba(29,29,26,0),var(--bg));pointer-events:none}
+@media (max-aspect-ratio:1728/1108){#hStageFade{display:block}}
 #hLow{position:absolute;left:calc(96*var(--u));right:calc(96*var(--u));bottom:calc(150*var(--u));display:flex;justify-content:space-between;align-items:flex-end}
 #hCtl{font-size:calc(62.3*var(--u));line-height:1.09;letter-spacing:-.03em;width:calc(620*var(--u))}
 #hCta{margin-top:calc(28*var(--u));font-size:calc(27*var(--u));padding:calc(11*var(--u)) calc(26*var(--u));background:var(--or);color:var(--bg)}
@@ -81,7 +94,7 @@ a{color:inherit;text-decoration:none}
 #eThumbs{pointer-events:none}
 #eThumbs.live{pointer-events:auto}
 #eTop{position:absolute;left:0;right:0;top:0;height:calc(var(--fade,100)*var(--u));background:linear-gradient(180deg,var(--bg) 0%,rgba(29,29,26,0) 100%);pointer-events:none}
-.th{cursor:pointer;transition:box-shadow .3s ease,transform .3s ease,opacity .35s ease}
+.th{transition:box-shadow .3s ease,transform .3s ease,opacity .35s ease}
 .th:hover{transform:translateY(calc(-3*var(--u)))}
 #eWatch{margin-top:calc(30*var(--u));display:inline-flex;align-items:center;gap:calc(12*var(--u));font:500 calc(20*var(--u)) 'DM Sans';letter-spacing:-.02em;color:#fff;background:rgba(29,29,26,.35);border:1px solid rgba(255,255,255,.6);border-radius:999px;padding:calc(10*var(--u)) calc(22*var(--u)) calc(10*var(--u)) calc(16*var(--u));cursor:pointer;backdrop-filter:blur(8px)}
 #eWatch:hover{background:rgba(255,255,255,.12)}
@@ -106,7 +119,7 @@ a{color:inherit;text-decoration:none}
 #dCount b{font-weight:400;color:var(--ink)}
 #dCopy p{margin:calc(26*var(--u)) auto 0;width:calc(627*var(--u));font-size:calc(22*var(--u));line-height:1.4;color:rgba(228,226,221,.8)}
 #dRing{position:absolute;left:50%;top:50%;width:0;height:0;perspective:calc(1400*var(--u))}
-.dc{cursor:pointer;position:absolute;left:0;top:0;width:calc(236*var(--u));height:calc(256*var(--u));margin:calc(-128*var(--u)) 0 0 calc(-118*var(--u));border-radius:calc(24*var(--u));overflow:hidden;box-shadow:0 0 calc(70*var(--u)) #000;will-change:transform,opacity,filter}
+.dc{position:absolute;left:0;top:0;width:calc(236*var(--u));height:calc(256*var(--u));margin:calc(-128*var(--u)) 0 0 calc(-118*var(--u));border-radius:calc(24*var(--u));overflow:hidden;box-shadow:0 0 calc(70*var(--u)) #000;will-change:transform,opacity,filter}
 .dc i{background:linear-gradient(180deg,rgba(29,29,26,0) 45%,var(--bg) 100%)}
 .dl{position:absolute;left:0;right:0;bottom:calc(26*var(--u));text-align:center;color:#d9d9d9;font-weight:600;letter-spacing:-.03em}
 .dl small{display:block;font-size:calc(21.6*var(--u))}
@@ -120,7 +133,7 @@ a{color:inherit;text-decoration:none}
 #gHead button:hover{opacity:1}
 #gHead svg{width:100%;height:100%}
 #gReel{position:relative;height:min(calc(690*var(--u)),calc(100svh - 190*var(--u)))}
-.gc{position:absolute;top:0;height:100%;width:calc(432*var(--u));border-radius:calc(14.4*var(--u));overflow:hidden;cursor:pointer;transition:left .9s cubic-bezier(.7,0,.2,1),width .9s cubic-bezier(.7,0,.2,1)}
+.gc{position:absolute;top:0;height:100%;width:calc(432*var(--u));border-radius:calc(14.4*var(--u));overflow:hidden;transition:left .9s cubic-bezier(.7,0,.2,1),width .9s cubic-bezier(.7,0,.2,1)}
 .gc.jump{transition:none}
 .gc i{top:auto;height:45%;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.7))}
 .gc span{font-size:calc(33.4*var(--u));letter-spacing:-.03em;left:calc(54*var(--u));bottom:calc(40*var(--u));transform-origin:0 100%;transition:transform .9s cubic-bezier(.7,0,.2,1);white-space:nowrap}
@@ -134,14 +147,15 @@ footer .mk{width:calc(41*var(--u));height:calc(41*var(--u));color:var(--ink)}
 .fc a{display:block;font-size:calc(19.2*var(--u));color:rgba(228,226,221,.85);margin-bottom:calc(11*var(--u))}
 #fBot{display:flex;justify-content:space-between;padding:calc(60*var(--u)) calc(109*var(--u)) calc(36*var(--u)) calc(83*var(--u));font-size:calc(16.8*var(--u));color:rgba(228,226,221,.5)}
 @media (max-width:760px){:root{--u:calc(100vw/900)}#hLow{flex-direction:column;align-items:flex-start;gap:calc(40*var(--u))}#hRo{flex-wrap:wrap}}
-#eCopy{left:calc(70*var(--u));top:calc(283*var(--u))}#eL1{font-size:calc(41.9*var(--u));line-height:calc(63.8*var(--u));letter-spacing:-0.04em}#eL2{font-size:calc(79.18*var(--u));line-height:calc(56.8*var(--u));letter-spacing:-0.04em}#eBody{margin-top:calc(23.200000000000003*var(--u));width:calc(517*var(--u));font-size:calc(17.91*var(--u));line-height:1.4;letter-spacing:-0.02em}#eWatch{font-size:calc(17.0*var(--u));margin-top:calc(24*var(--u))}:root{--fade:100}</style></head>
+#eCopy{left:calc(70*var(--u));top:calc(236*var(--u))}#eL1{font-size:calc(41.9*var(--u));line-height:calc(63.8*var(--u));letter-spacing:-0.04em}#eL2{font-size:calc(79.18*var(--u));line-height:calc(56.8*var(--u));letter-spacing:-0.04em}#eBody{margin-top:calc(22.200000000000003*var(--u));width:calc(517*var(--u));font-size:calc(17.91*var(--u));line-height:1.399999976158142;letter-spacing:-0.02em}#eWatch{font-size:calc(17.0*var(--u));margin-top:calc(24*var(--u))}:root{--fade:100}</style></head>
 <body data-gstart="2">
 <nav id="nav"><a class="mk" href="#"><svg viewBox="0 0 27 26"  xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="currentColor" d="M7.89551 4.59961C7.89573 1.42539 11.038 -0.793327 14.0293 0.268555L22.1621 3.15625C24.4906 3.98345 26.0467 6.18808 26.0469 8.65918V14.9531C26.046 18.9876 22.051 21.806 18.25 20.4531C18.1973 20.4344 18.1395 20.473 18.1357 20.5303C17.8932 24.4327 13.9026 27.0412 10.1924 25.5957L3.71973 23.0732C1.4776 22.1995 0.000271149 20.0391 0 17.6328V9.63281C0.00022465 6.46236 3.14536 4.25097 6.12891 5.32324L6.61719 5.49902C7.23957 5.72223 7.89521 5.2608 7.89551 4.59961ZM7.88184 16.9268C7.74981 16.9755 7.62135 17.0381 7.49902 17.1182L4.12207 19.3281C3.64292 19.6419 3.35473 20.1415 3.31641 20.6182C3.27844 21.0936 3.48915 21.5478 4.00879 21.7773C4.0698 21.8043 4.13176 21.8301 4.19434 21.8545L10.667 24.377C13.6376 25.5345 16.8432 23.3433 16.8438 20.1553C16.8436 20.0341 16.7674 19.9255 16.6533 19.8848L11.7861 18.1523C11.3537 17.9984 10.9492 17.794 10.5752 17.5518L9.77051 17.3066C8.88606 16.9672 8.27452 16.8935 7.88184 16.9268ZM23.8369 7.06934C23.3925 6.94179 22.8516 7.02057 22.4004 7.31543L18.8818 9.61523L18.8945 9.61914C18.0997 10.0784 17.9819 11.407 17.9648 12.2617C17.975 12.3173 17.9862 12.3728 17.999 12.4277C18.0987 12.8553 18.1513 13.2996 18.1514 13.752V18.459C18.1514 18.8005 18.3661 19.1056 18.6875 19.2207C21.6373 20.2708 24.7384 18.084 24.7393 14.9531V8.65918C24.7392 8.45656 24.7257 8.25546 24.6992 8.05859C24.6279 7.52917 24.2802 7.19671 23.8369 7.06934ZM5.6875 6.55371C3.55582 5.78735 1.30882 7.3676 1.30859 9.63281V17.6328C1.3088 18.2014 1.64022 18.578 2.0918 18.7354C2.54477 18.893 3.11961 18.8297 3.59961 18.5156L7.07715 16.2393C7.90442 15.6976 8.15565 14.6148 7.98828 13.6309C7.93493 13.3171 7.90635 12.9957 7.90527 12.6699L7.89551 9.61621V8.70996C7.89537 7.8927 7.38235 7.16319 6.61328 6.88672L5.6875 6.55371ZM10.8926 8.4248C10.0708 8.12928 9.20433 8.73905 9.2041 9.6123L9.21289 12.666C9.2194 14.5768 10.4246 16.2788 12.2246 16.9199L14.2568 17.6436C15.5181 18.0922 16.8434 17.157 16.8438 15.8184V13.752C16.8436 11.8408 15.6441 10.1341 13.8457 9.4873L10.8926 8.4248ZM13.5928 1.50098C11.4525 0.741014 9.20433 2.3285 9.2041 4.59961V5.06641C9.20416 5.88362 9.71735 6.61306 10.4863 6.88965L14.2881 8.25684C14.6207 8.37648 14.9368 8.52638 15.2354 8.69922C16.36 8.99808 17.5287 9.20118 18.0557 8.99805C18.0717 8.98826 18.0887 8.98006 18.1045 8.96973L21.7119 6.6084C22.1592 6.31568 22.4122 5.8471 22.4277 5.40918C22.4429 4.97302 22.2236 4.56604 21.7246 4.38867L13.5928 1.50098Z" fill="currentColor"/></svg></a><a class="pill" href="#">Join Our Waitlist</a></nav>
 
 <section id="hero">
-  <div class="lay"><div class="m " style="background-image:url(media/b67b5dd9.jpg);"></div></div>
-  <h1 id="hTitle"><span style="font-weight:600;color:#f5f5f5">AI-Powered </span><span style="font-weight:600;color:#ee4c00">Cinema.</span></h1>
-  <div class="lay"><div id="hShadow"><svg preserveAspectRatio="none" overflow="visible"  width="327.96" height="133.545" viewBox="0 0 327.96 133.545" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <div id="hStage">
+  <div class="hstack" id="hBack"><div class="hsl on"><div class="lay"><div class="m " style="background-image:url(media/b67b5dd9.jpg);"></div></div></div><div class="hsl"><div class="hs" style="background-image:url(media/hero2-back.jpg)"></div></div><div class="hsl"><div class="hs" style="background-image:url(media/hero3-back.jpg)"></div></div><div class="hsl"><div class="hs" style="background-image:url(media/hero4-back.jpg)"></div></div><div class="hsl"><div class="hs" style="background-image:url(media/hero5-back.jpg)"></div></div><div class="hsl"><div class="hs" style="background-image:url(media/hero6-back.jpg)"></div></div></div>
+  <h1 id="hTitle"><span style="font-weight:600;color:#f5f5f5">AI-Powered </span><span style="font-weight:600;color:#ee4c00">Cinema. </span></h1>
+  <div class="hstack" id="hFront"><div class="hsl on"><div class="lay"><div id="hShadow"><svg preserveAspectRatio="none" overflow="visible"  width="327.96" height="133.545" viewBox="0 0 327.96 133.545" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g id="Vector 93" opacity="0.78" filter="url(#filter0_d_0_4)">
 <path d="M175.68 43.6655C89.76 33.5855 41.48 90.2655 28.08 119.865H299.88C294.28 98.6655 261.6 53.7455 175.68 43.6655Z" fill="#D9D9D9"/>
 </g>
@@ -158,7 +172,9 @@ footer .mk{width:calc(41*var(--u));height:calc(41*var(--u));color:var(--ink)}
 </filter>
 </defs>
 </svg>
-</div><div class="m " style="background-image:url(media/147d86ba.png);"></div></div>
+</div><div class="m " style="background-image:url(media/147d86ba.png);"></div></div></div><div class="hsl"><div class="hs" style="background-image:url(media/hero2-front.png)"></div></div><div class="hsl"><div class="hs" style="background-image:url(media/hero3-front.png)"></div></div><div class="hsl"><div class="hs" style="background-image:url(media/hero4-front.png)"></div></div><div class="hsl"><div class="hs" style="background-image:url(media/hero5-front.png)"></div></div><div class="hsl"><div class="hs" style="background-image:url(media/hero6-front.png)"></div></div></div>
+  <div id="hStageFade"></div>
+  </div>
   <div id="hFade"></div>
   <div id="hLow">
     <div id="hCtl"><span style="font-weight:600;color:#f5f5f5">Control is everything. </span><span class="ns" style="font-weight:500;color:#f5f5f5">Now it&#x27;s yours.</span><br><a class="pill" id="hCta" href="#">Join Our Waitlist</a></div>
@@ -168,30 +184,26 @@ footer .mk{width:calc(41*var(--u));height:calc(41*var(--u));color:var(--ink)}
 
 <section id="story"><div id="sTrack">
   <div id="sCopy"><h2><span style="font-weight:600;color:#f5f5f5">It all starts with </span><span style="font-weight:600;color:#ee4c00">Story.</span></h2><p>Upload your script and Fableform will create a collaborative production pipeline. Generate cast, locations, wardrobe, props, and more.</p></div>
-  <div class="sc"><div class="m " style="background-image:url(media/582a9a37.jpg);background-size:306.75% 123.61%;background-position:0.00% 0.52%;"></div><i></i><span>Casting</span></div><div class="sc"><div class="m " style="background-image:url(media/3f18d224.jpg);"></div><i></i><span>Locations</span></div><div class="sc"><div class="m " style="background-image:url(media/b51e408d.jpg);"></div><i></i><span>Wardrobe</span></div><div class="sc"><div class="m " style="background-image:url(media/312d292b.jpg);"></div><i></i><span>Props</span></div><div class="sc"><div class="m " style="background-image:url(media/a8c0ce55.jpg);"></div><i></i><span>Vehicles</span></div>
+  <div class="sc"><div class="m " style="background-image:url(media/107507fd.jpg);"></div><i></i><span>Casting</span></div><div class="sc"><div class="m " style="background-image:url(media/198b504c.jpg);"></div><i></i><span>Locations</span></div><div class="sc"><div class="m " style="background-image:url(media/ec01479a.jpg);"></div><i></i><span>Wardrobe</span></div><div class="sc"><div class="m " style="background-image:url(media/b67b5dd9.jpg);"></div><i></i><span>Props</span></div>
 </div></section>
 
 <section id="eye">
   <div id="eBox"><div id="eFlip"><div class="m " style="background-image:url(media/V040-t0.jpg);"><video class="clip" muted playsinline preload="auto" data-t0="0" src="media/V040.mp4"></video></div></div><div id="eSwap"></div>
    <div id="eUI"><div id="eShade"></div>
     <div id="eBig"><b></b><span></span></div>
-    <div id="eCopy"><div id="eL1" class="eIn"><span style="font-weight:500;color:#ffffff">AI doesn&#x27;t </span><span style="font-weight:700;color:#ffffff">replace</span><span style="font-weight:500;color:#ffffff"> your eye.</span></div><div id="eL2" class="eIn"><span style="font-weight:600;color:#ffffff">It </span><span class="ns" style="font-weight:600;color:#ffffff">enhances</span><span style="font-weight:600;color:#ffffff"> it.</span></div><p id="eBody" class="eIn">Choose your film body, pick your glass, dial in the emulsion. Every frame is crafted with intention.</p>
-      <button id="eWatch" class="eIn" data-clip="media/V040.mp4"><svg viewBox="0 0 16 16"><path d="M3 1.5v13L14 8z" fill="currentColor"/></svg>Watch full video</button></div>
-    <div id="eThumbs" class="eIn"><div class="th" data-img="media/46116d0e.jpg"><div class="m " style="background-image:url(media/46116d0e.jpg);"></div><div class="tag"><b>MCU</b><span>Lens Flare</span></div></div><div class="th" data-img="media/a8c5f1e8.jpg"><div class="m " style="background-image:url(media/a8c5f1e8.jpg);"></div><div class="tag"><b>Close Up</b><span>Fisheye</span></div></div><div class="th" data-img="media/312d292b.jpg"><div class="m " style="background-image:url(media/312d292b.jpg);"></div><div class="tag"><b>Medium</b><span>Front</span></div></div><div class="th" data-img="media/f97329ef.jpg"><div class="m " style="background-image:url(media/f97329ef.jpg);"></div><div class="tag"><b>Cowboy</b><span>Front</span></div></div></div>
+    <div id="eCopy"><div id="eL1" class="eIn"><span style="font-weight:500;color:#ffffff">AI doesn&#x27;t </span><span style="font-weight:700;color:#ffffff">replace</span><span style="font-weight:500;color:#ffffff"> your eye.</span><span style="font-weight:600;color:#ffffff"> </span></div><div id="eL2" class="eIn"><span style="font-weight:600;color:#ffffff">It </span><span class="ns" style="font-weight:600;color:#ffffff">enhances</span><span style="font-weight:600;color:#ffffff"> it.</span></div><p id="eBody" class="eIn">Choose your film body, pick your glass, dial in the emulsion. Every frame is crafted with intention.</p>
+</div>
+    <div id="eThumbs" class="eIn"><div class="th" data-img="media/d6036f20.jpg"><div class="m " style="background-image:url(media/d6036f20.jpg);"></div><div class="tag"><b>MCU</b><span>Lens Flare</span></div></div><div class="th" data-img="media/704f7ff0.jpg"><div class="m " style="background-image:url(media/704f7ff0.jpg);"></div><div class="tag"><b>Close Up</b><span>Fisheye</span></div></div><div class="th" data-img="media/21aa7f10.jpg"><div class="m " style="background-image:url(media/21aa7f10.jpg);"></div><div class="tag"><b>Medium</b><span>Front</span></div></div><div class="th" data-img="media/1726c8fa.jpg"><div class="m " style="background-image:url(media/1726c8fa.jpg);"></div><div class="tag"><b>Cowboy</b><span>Front</span></div></div></div>
    </div>
    <button id="eExit" aria-label="Back to the overview">&times;&nbsp; Close</button>
    <div id="eTop"></div>
   </div>
 </section>
 
-<section id="dept"><div id="dGlow"></div>
-  <div id="dCopy"><h2>One Script. <br>Every Department.</h2><p>Seven departments. Collaborate, generate, comment and approve media across multiple departments. Fableform tracks continuity across locations and scenes.</p></div>
-  <div id="dRing"><div class="dc" data-i="0"><div class="m " style="background-image:url(media/a8c5f1e8.jpg);"></div><i></i><div class="dl"><small>01</small><span>Story</span></div></div><div class="dc" data-i="1"><div class="m " style="background-image:url(media/582a9a37.jpg);"></div><i></i><div class="dl"><small>02</small><span>Casting</span></div></div><div class="dc" data-i="2"><div class="m " style="background-image:url(media/3f18d224.jpg);"></div><i></i><div class="dl"><small>03</small><span>Locations</span></div></div><div class="dc" data-i="3"><div class="m " style="background-image:url(media/394fc2a5.jpg);"></div><i></i><div class="dl"><small>04</small><span>Art</span></div></div><div class="dc" data-i="4"><div class="m " style="background-image:url(media/b67b5dd9.jpg);"></div><i></i><div class="dl"><small>05</small><span>Props</span></div></div><div class="dc" data-i="5"><div class="m " style="background-image:url(media/V041-t0.jpg);"><video class="clip" muted playsinline preload="auto" data-t0="0" src="media/V041.mp4"></video></div><i></i><div class="dl"><small>06</small><span>Vehicles</span></div></div><div class="dc" data-i="6"><div class="m " style="background-image:url(media/cfc1b4d3.jpg);"></div><i></i><div class="dl"><small>07</small><span>Wardrobe</span></div></div></div>
-</section>
 
 <section id="genre">
   <div id="gHead"><h2>Any Genre</h2><div><button id="gPrev" aria-label="Previous genre"><svg viewBox="0 0 24 47" fill="none"><path d="M22 1L2 23.5L22 46" stroke="currentColor" stroke-width="2.2"/></svg></button><button id="gNext" aria-label="Next genre"><svg viewBox="0 0 24 47" fill="none"><path d="M2 1L22 23.5L2 46" stroke="currentColor" stroke-width="2.2"/></svg></button></div></div>
-  <div id="gReel"><div class="gc" data-i="0"><div class="m " style="background-image:url(media/b36967de.jpg);"></div><i></i><span>Psychological Thriller</span></div><div class="gc" data-i="1"><div class="m " style="background-image:url(media/0872f5d0.jpg);"></div><i></i><span>Music Video</span></div><div class="gc" data-i="2"><div class="m " style="background-image:url(media/b51e408d.jpg);"></div><i></i><span>Drama</span></div><div class="gc" data-i="3"><div class="m " style="background-image:url(media/f97329ef.jpg);"></div><i></i><span>Western</span></div><div class="gc" data-i="4"><div class="m " style="background-image:url(media/V036-t0.jpg);"><video class="clip" muted playsinline preload="auto" data-t0="0" src="media/V036.mp4"></video></div><i></i><span>War</span></div><div class="gc" data-i="5"><div class="m " style="background-image:url(media/15db165b.jpg);"></div><i></i><span>Film Noir</span></div><div class="gc" data-i="6"><div class="m " style="background-image:url(media/V037-t0.jpg);"><video class="clip" muted playsinline preload="auto" data-t0="0" src="media/V037.mp4"></video></div><i></i><span>Action</span></div><div class="gc" data-i="7"><div class="m " style="background-image:url(media/d0486d08.jpg);"></div><i></i><span>Horror</span></div><div class="gc" data-i="8"><div class="m " style="background-image:url(media/V039-t0.jpg);"><video class="clip" muted playsinline preload="auto" data-t0="0" src="media/V039.mp4"></video></div><i></i><span>Adventure</span></div><div class="gc" data-i="9"><div class="m " style="background-image:url(media/a091e59e.jpg);"></div><i></i><span>Mystery</span></div><div class="gc" data-i="10"><div class="m " style="background-image:url(media/V042-t0.jpg);"><video class="clip" muted playsinline preload="auto" data-t0="0" src="media/V042.mp4"></video></div><i></i><span>Expedition</span></div><div class="gc" data-i="11"><div class="m " style="background-image:url(media/V043-t0.jpg);"><video class="clip" muted playsinline preload="auto" data-t0="0" src="media/V043.mp4"></video></div><i></i><span>Fantasy</span></div><div class="gc" data-i="12"><div class="m " style="background-image:url(media/541b9df9.jpg);"></div><i></i><span>Neo-Noir</span></div><div class="gc" data-i="13"><div class="m " style="background-image:url(media/409e21ab.jpg);"></div><i></i><span>Survival</span></div></div>
+  <div id="gReel"><div class="gc" data-i="0"><div class="m " style="background-image:url(media/b36967de.jpg);"></div><i></i><span>Psychological Thriller</span></div><div class="gc" data-i="1"><div class="m " style="background-image:url(media/0872f5d0.jpg);"></div><i></i><span>Music Video</span></div><div class="gc" data-i="2"><div class="m " style="background-image:url(media/b51e408d.jpg);"></div><i></i><span>Drama</span></div><div class="gc" data-i="3"><div class="m " style="background-image:url(media/f97329ef.jpg);"></div><i></i><span>Western</span></div><div class="gc" data-i="4"><div class="m " style="background-image:url(media/V036-t0.jpg);"><video class="clip" muted playsinline preload="auto" data-t0="0" src="media/V036.mp4"></video></div><i></i><span>War</span></div><div class="gc" data-i="5"><div class="m " style="background-image:url(media/15db165b.jpg);"></div><i></i><span>Film Noir</span></div><div class="gc" data-i="6"><div class="m " style="background-image:url(media/V037-t0.jpg);"><video class="clip" muted playsinline preload="auto" data-t0="0" src="media/V037.mp4"></video></div><i></i><span>Action</span></div><div class="gc" data-i="7"><div class="m " style="background-image:url(media/d0486d08.jpg);"></div><i></i><span>Horror</span></div><div class="gc" data-i="8"><div class="m " style="background-image:url(media/V039-t0.jpg);"><video class="clip" muted playsinline preload="auto" data-t0="0" src="media/V039.mp4"></video></div><i></i><span>Adventure</span></div><div class="gc" data-i="9"><div class="m " style="background-image:url(media/a091e59e.jpg);"></div><i></i><span>Mystery</span></div><div class="gc" data-i="10"><div class="m " style="background-image:url(media/V043-t0.jpg);"><video class="clip" muted playsinline preload="auto" data-t0="0" src="media/V043.mp4"></video></div><i></i><span>Fantasy</span></div><div class="gc" data-i="11"><div class="m " style="background-image:url(media/541b9df9.jpg);"></div><i></i><span>Neo-Noir</span></div><div class="gc" data-i="12"><div class="m " style="background-image:url(media/409e21ab.jpg);"></div><i></i><span>Survival</span></div></div>
 </section>
 
 <section id="outro"><h2>AI-Powered Auteurs.</h2></section>
@@ -220,7 +232,7 @@ $$('.th').forEach(t=>{t.addEventListener('mouseenter',()=>{
   eBox.classList.add('hov');});});
 $('#eThumbs').addEventListener('mouseleave',()=>{$('#eSwap').classList.remove('on');eBox.classList.remove('hov');$$('.th').forEach(x=>x.classList.remove('on'));});
 /* Watch full video: the clip replays from the top inside the same frame, with everything else cleared away */
-(function(){const b=$('#eWatch'),m=$('#eFlip .m'),v=m&&m.querySelector('video');
+(function(){const b=$('#eWatch'),m=$('#eFlip .m'),v=m&&m.querySelector('video');if(!b)return;
   if(!v){b.style.display='none';return;}
   const exit=()=>{eBox.classList.remove('watching');};
   b.onclick=()=>{eBox.classList.remove('hov');$('#eSwap').classList.remove('on');eBox.classList.add('watching');play(m,true);};
@@ -258,11 +270,13 @@ $('#eThumbs').addEventListener('mouseleave',()=>{$('#eSwap').classList.remove('o
   window._genre={go,get act(){return act}};
 })();
 
+(function(){const b=[...document.querySelectorAll('#hBack .hsl')],f=[...document.querySelectorAll('#hFront .hsl')];if(b.length<2)return;let k=0;
+  setInterval(()=>{b[k].classList.remove('on');f[k].classList.remove('on');k=(k+1)%b.length;b[k].classList.add('on');f[k].classList.add('on');},10000);})();
 if(window.gsap&&!reduce){
   gsap.registerPlugin(ScrollTrigger);
   /* hero: the whole image arrives, the title slots in behind the robot, then the copy */
   gsap.timeline({defaults:{ease:'power2.out'}})
-    .from('#hero .lay',{opacity:0,duration:1.4})
+    .from('#hero .hstack',{opacity:0,duration:1.4})
     .addLabel('t','-=.5')
     .fromTo('#hTitle',{opacity:0},{opacity:1,duration:1.5,ease:'none'},'t')      /* a full, even 0 -> 100 fade while it drops */
     .from('#hTitle',{yPercent:-35,duration:1.5,ease:'power2.out'},'t')
@@ -270,9 +284,10 @@ if(window.gsap&&!reduce){
   /* as you scroll off the hero, the colour fade rises over the image (parallax depth) */
   gsap.timeline({scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}})
     .to('#hFade',{height:()=>760*U(),ease:'none'},0)
-    .to('#hero .lay',{y:()=>140*U(),ease:'none'},0)
+    .to('#hero .hstack',{y:()=>140*U(),ease:'none'},0)
     .to('#hLow',{y:()=>-50*U(),ease:'none'},0);
 
+  if($('#story')){
   /* story: pinned, cards slide past as you scroll */
   const tr=$('#sTrack');
   const scs=$$('.sc');
@@ -293,6 +308,7 @@ if(window.gsap&&!reduce){
     .to(tr,{x:()=>-(tr.scrollWidth-innerWidth+119*U()),ease:'power1.inOut',duration:1})
     .to({}, {duration:.3});
   storyFx(); addEventListener('resize',storyFx);
+  }
 
   /* enhance: full-bleed image zooms into the framed panel, then the copy and shots come in */
   const panel=()=>{const u=U(),w=1643*u,h=Math.min(860*u,innerHeight-90*u);return {left:(innerWidth-w)/2,top:(innerHeight-h)/2,width:w,height:h,borderRadius:40*u};};
@@ -305,10 +321,11 @@ if(window.gsap&&!reduce){
     .fromTo('#eFlip .m',{scale:1.18},{scale:1,ease:'power2.inOut',duration:1},0)
     .fromTo('#eTop',{opacity:1},{opacity:0,ease:'power1.out',duration:.55},0)
     .to('#eShade',{opacity:1,duration:.5},.6)
-    .to('#eL1',{opacity:1,duration:.35},.8).to('#eL2',{opacity:1,duration:.35},.95).to('#eBody',{opacity:1,duration:.35},1.1).to('#eWatch',{opacity:1,duration:.35},1.18)
+    .to('#eL1',{opacity:1,duration:.35},.8).to('#eL2',{opacity:1,duration:.35},.95).to('#eBody',{opacity:1,duration:.35},1.1)
     .fromTo('#eThumbs',{opacity:0,y:()=>40*U()},{opacity:1,y:0,duration:.45},1.2)
     .to({}, {duration:.4});
 
+  if($('#dept')){
   /* one script, every department: a ring; one card always sits in the perfect slot, the rest cycle through as you scroll */
   const dcs=$$('.dc'),K=dcs.length;
   const ring={p:0}; window._ring=ring;
@@ -325,7 +342,7 @@ if(window.gsap&&!reduce){
       const near=Math.max(0,1-Math.abs(rel));                  // 1 in the slot, 0 one step away
       const pull=1-.06*near;                                    // the focused card sits a little closer to the copy
       const x=Math.cos(a)*rx*pull,y=Math.sin(a)*ry*pull-46*u*k*near;   // focus card sits a little higher
-      const s=(.86+.49*near)*k, tilt=rel*-11, ry3=rel*14;
+      const w=Math.sin(2*Math.PI*rel/K)*K/(2*Math.PI), s=(.86+.49*near)*k, tilt=w*-11, ry3=w*14;   // smooth all the way round: no flip at the far side (Joel, 2026-11-26)
       c.style.transform=`translate(${x}px,${y}px) rotateY(${ry3*(1-near)}deg) rotate(${tilt*(1-near)}deg) scale(${s})`;
       c.style.opacity=(.5+.5*near).toFixed(3);
       c.style.filter=`blur(${(1.6*(1-near)).toFixed(2)}px) brightness(${(.7+.3*near).toFixed(2)})`;
@@ -355,6 +372,7 @@ if(window.gsap&&!reduce){
     .fromTo('#dRing',{y:()=>70*U()},{y:()=>-70*U(),ease:'none',duration:1},0);
   showCount();
   drawRing(); addEventListener('resize',drawRing);
+  }
 
   gsap.timeline({scrollTrigger:{trigger:'#genre',start:'top bottom',end:'bottom top',scrub:1}})
     .fromTo('#gHead',{y:()=>70*U()},{y:()=>-30*U(),ease:'none'},0)
@@ -368,4 +386,4 @@ if(window.gsap&&!reduce){
   $$('.dc').forEach((c,i,a)=>{const K=a.length,ang=-Math.PI/2+i*2*Math.PI/K,u=U();c.style.transform=`translate(${Math.cos(ang)*600*u}px,${Math.sin(ang)*360*u}px) scale(${i?0.8:1.15})`;});
 }
 </script>
-</body></html>
+<style>#opt{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:60;display:flex;gap:4px;padding:4px;border-radius:999px;background:rgba(29,29,26,.7);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(8px);font:500 14px "DM Sans",sans-serif}#opt a{padding:7px 14px;border-radius:999px;color:#fff;opacity:.7}#opt a.on{background:#fff;color:#1d1d1a;opacity:1}</style><nav id="opt"><a href="index.html" class="on">Option 1</a><a href="option-2.html">Option 2</a></nav></body></html>
