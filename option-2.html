@@ -117,6 +117,8 @@ a{color:inherit;text-decoration:none}
 #dCopy h2{font-weight:600;font-size:calc(76.8*var(--u));line-height:1.09;letter-spacing:-.03em}
 #dCount{margin-top:calc(22*var(--u));font:400 calc(15.6*var(--u)) 'DM Mono',monospace;color:rgba(228,226,221,.5);letter-spacing:.04em}
 #dCount b{font-weight:400;color:var(--ink)}
+#dKick{display:block;font-size:calc(20*var(--u));letter-spacing:.02em;color:rgba(228,226,221,.7);margin-bottom:calc(18*var(--u));font-family:'DM Mono',monospace}
+#dStyle{transition:opacity .35s ease}
 #dCopy p{margin:calc(26*var(--u)) auto 0;width:calc(627*var(--u));font-size:calc(22*var(--u));line-height:1.4;color:rgba(228,226,221,.8)}
 #dRing{position:absolute;left:50%;top:50%;width:0;height:0;perspective:calc(1400*var(--u))}
 .dc{position:absolute;left:0;top:0;width:calc(236*var(--u));height:calc(256*var(--u));margin:calc(-128*var(--u)) 0 0 calc(-118*var(--u));border-radius:calc(24*var(--u));overflow:hidden;box-shadow:0 0 calc(70*var(--u)) #000;will-change:transform,opacity,filter}
@@ -354,7 +356,9 @@ if(window.gsap&&!reduce){
      Hover pauses, click jumps the short way round, the counter shows where you are. Scroll only adds parallax. */
   let inView=false,paused=false,lastMove=0;
   const cnt=$('#dCount b');
-  const showCount=()=>{if(cnt)cnt.textContent=String(((Math.round(ring.p)%K)+K)%K+1).padStart(2,'0');};
+  const dSt=$('#dStyle');
+  const showCount=()=>{const i=((Math.round(ring.p)%K)+K)%K;if(cnt)cnt.textContent=String(i+1).padStart(2,'0');
+    if(dSt&&dSt.dataset.i!=String(i)){dSt.dataset.i=i;dSt.style.opacity=0;setTimeout(()=>{dSt.innerHTML=dcs[i].dataset.s;dSt.style.opacity=1;},180);}};
   const goTo=(t,d)=>{lastMove=performance.now();gsap.to(ring,{p:t,duration:d||1.1,ease:'power2.inOut',onUpdate:()=>{drawRing();showCount();},overwrite:true});};
   setInterval(()=>{if(inView&&!paused&&performance.now()-lastMove>2600)goTo(Math.round(ring.p)+1);},300);
   dcs.forEach((c,i)=>c.addEventListener('click',()=>{const cur=Math.round(ring.p);let d=((i-cur)%K+K)%K;if(d>K/2)d-=K;goTo(cur+d,.9);}));
@@ -386,4 +390,4 @@ if(window.gsap&&!reduce){
   $$('.dc').forEach((c,i,a)=>{const K=a.length,ang=-Math.PI/2+i*2*Math.PI/K,u=U();c.style.transform=`translate(${Math.cos(ang)*600*u}px,${Math.sin(ang)*360*u}px) scale(${i?0.8:1.15})`;});
 }
 </script>
-<style>#opt{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:60;display:flex;gap:4px;padding:4px;border-radius:999px;background:rgba(29,29,26,.7);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(8px);font:500 14px "DM Sans",sans-serif}#opt a{padding:7px 14px;border-radius:999px;color:#fff;opacity:.7}#opt a.on{background:#fff;color:#1d1d1a;opacity:1}</style><nav id="opt"><a href="index.html">Option 1</a><a href="option-2.html" class="on">Option 2</a></nav></body></html>
+<style>#opt{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:60;display:flex;gap:4px;padding:4px;border-radius:999px;background:rgba(29,29,26,.7);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(8px);font:500 14px "DM Sans",sans-serif}#opt a{padding:7px 14px;border-radius:999px;color:#fff;opacity:.7}#opt a.on{background:#fff;color:#1d1d1a;opacity:1}</style><nav id="opt"><a href="index.html">Option 1</a><a href="option-2.html" class="on">Option 2</a><a href="option-3.html">Option 3</a></nav></body></html>
